@@ -29,6 +29,7 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel": "^6.23.0",
     "babel-loader": "^8.0.5",
     "bootstrap": "^4.3.1",
@@ -43,6 +44,7 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.8.4",
     "react-router": "^4.3.1",
+    "react-router-dom": "^4.4.0",
     "react-stormpath": "^2.0.1",
     "reactstrap": "^7.1.0",
     "sass-loader": "^7.1.0",

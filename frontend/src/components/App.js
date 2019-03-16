@@ -1,15 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import DataProvider from "./DataProvider";
-import FormPage from './login'
 import Login from "./login/login";
-//import Table from "./Table";
+import Registration from "./registration/registration"
+
+import {Route, Switch, BrowserRouter} from 'react-router-dom';
+
 const App = () => (
-    <div>
-        <Login/>
-    </div>
-//  <DataProvider endpoint="api/lead/"
-//                render={data => <Table data={data} />} />
+    <BrowserRouter>
+        <Switch>
+            <Route path="/front/login" component={Login}/>
+            <Route path="/front/register" component={Registration}/>
+        </Switch>
+    </BrowserRouter>
 );
 const wrapper = document.getElementById("app");
 wrapper ? ReactDOM.render(<App />, wrapper) : null;
