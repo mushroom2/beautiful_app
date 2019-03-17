@@ -18,15 +18,21 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls import url
+from backend.views import AlbumViewSet
+from rest_framework.routers import DefaultRouter
 
-schema_view = get_swagger_view(title='Pastebin API')
+router = DefaultRouter()
+router.register(r'albums', AlbumViewSet, basename='album')
+
+schema_view = get_swagger_view(title='Beautiful REST API')
 
 api_urlpatterns = [path('accounts/', include('rest_registration.api.urls'))]
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='frontend/index.html')),
-    url(r'^api/v1/accounts/$', schema_view),
+    url(r'^api/v1/$', schema_view),
     path('admin/', admin.site.urls),
     path('front/', include('frontend.urls')),
     path('api/v1/', include(api_urlpatterns)),
+    path('api/v1/', include(router.urls))
 ]

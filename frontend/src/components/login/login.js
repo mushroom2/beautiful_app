@@ -6,48 +6,55 @@ import {
   Button, FormText
 } from 'reactstrap';
 
+import axios from 'axios';
+
 class Login extends Component {
   constructor(props){
     super(props);
       this.state = {
-      'email': '',
-      'password': '',
-      validate: {
-        emailState: ''}
-      };
-    this.validateEmail = this.validateEmail.bind(this);
+          'password': '',
+          'username': ''
+      }
+    this.setLogin = this.setLogin.bind(this);
+    this.setPassword = this.setPassword.bind(this);
+    this.formSubmit = this.formSubmit.bind(this);
   }
 
-  validateEmail(e) {
-  const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const { validate } = this.state;
-    if (emailRex.test(e.target.value)) {
-      validate.emailState = 'has-success'
-    } else {
-      validate.emailState = 'has-danger'
-    }
-    this.setState({ validate })
-    console.log(validate);
+  setLogin(e) {
+  this.setState({'username': e.target.value})
+  }
+
+  setPassword(e){
+    this.setState({'password': e.target.value})
+  }
+
+  formSubmit(e){
+    e.preventDefault();
+    axios.post('/api/v1/accounts/login/', {
+      "login": this.state.username,
+      "password": this.state.password
+    }).then(function (res) {
+        console.log(res)
+    }).catch(function (err) {
+        console.log(err)
+    })
+
   }
 
   render(){
     return (
       <Container className="App">
         <h2>Sign In</h2>
-        <Form className="form">
+        <Form className="form" onSubmit={ (e) => this.formSubmit(e)}>
           <Col>
             <FormGroup>
-              <Label>Email</Label>
+              <Label>Login</Label>
               <Input
-                type="email"
-                name="email"
-                id="exampleEmail"
-                placeholder="myemail@email.com"
-                valid={ this.state.validate.emailState === 'has-success' }
-                invalid={ this.state.validate.emailState === 'has-danger' }
-                onChange={ (e) => this.validateEmail(e)}
+                type="text"
+                name="login"
+                id="loginLogin"
+                onChange={ (e) => this.setLogin(e)}
               />
-              <FormText>Your username is most likely your email.</FormText>
             </FormGroup>
           </Col>
           <Col>
@@ -57,11 +64,11 @@ class Login extends Component {
                 type="password"
                 name="password"
                 id="examplePassword"
-                placeholder="********"
+                onChange={ (e) => this.setPassword(e)}
               />
             </FormGroup>
           </Col>
-          <Button>Submit</Button>
+          <Button className="btn btn-primary btn-large centerButton" type="submit">Login</Button>
         </Form>
       </Container>
     )
