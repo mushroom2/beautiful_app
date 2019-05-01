@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls import url
-from backend.views import AlbumViewSet
+from backend.views import AlbumViewSet, UserView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -34,5 +34,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('front/', include('frontend.urls')),
     path('api/v1/', include(api_urlpatterns)),
+    url('^api/v1/user$', UserView.as_view()),
     path('api/v1/', include(router.urls))
 ]

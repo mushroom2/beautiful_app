@@ -24,6 +24,7 @@ class Album(models.Model):
     def __str__(self):
         return f'{self.name}_{self.owner}'
 
+
 class AlbumItem(models.Model):
     name = models.CharField(max_length=30, unique=True)
     description = models.TextField(max_length=1024)
@@ -34,7 +35,7 @@ class AlbumItem(models.Model):
     likes = GenericRelation(Like)
     image_metadata = JSONField()
     cloud_url = models.TextField(max_length=2048)
-    items = models.ForeignKey(Album, on_delete=models.CASCADE, default=Album.objects.first().id)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, default=Album.objects.first().id)
 
     def __str__(self):
         return self.name

@@ -7,7 +7,9 @@ import {
 } from 'reactstrap';
 
 import axios from 'axios';
+import Utils from '../utils'
 
+let u = new Utils();
 class Login extends Component {
   constructor(props){
     super(props);
@@ -28,13 +30,17 @@ class Login extends Component {
     this.setState({'password': e.target.value})
   }
 
+
+
   formSubmit(e){
     e.preventDefault();
     axios.post('/api/v1/accounts/login/', {
       "login": this.state.username,
       "password": this.state.password
-    }).then(function (res) {
-        console.log(res)
+    }, {headers: {'X-CSRFToken':u.getCookie('csrftoken')}}).then(function (res) {
+        console.log(res);
+        window.location = '/front/gallery'
+        //console.log(getCookie('csrftoken'))
     }).catch(function (err) {
         console.log(err)
     })
