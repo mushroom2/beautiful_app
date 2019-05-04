@@ -5,6 +5,11 @@ import Registration from "./registration/registration"
 import Albums from "./albums"
 
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
+import { Provider } from 'react-redux'
+import { store } from '../store'
+
+
+import registerServiceWorker from './registerServiceWorker'
 
 const App = () => (
     <BrowserRouter>
@@ -16,4 +21,10 @@ const App = () => (
     </BrowserRouter>
 );
 const wrapper = document.getElementById("app");
-wrapper ? ReactDOM.render(<App />, wrapper) : null;
+wrapper ? ReactDOM.render(
+
+    <Provider store={store}>
+        <App />
+    </Provider>, wrapper) : null;
+
+registerServiceWorker();
