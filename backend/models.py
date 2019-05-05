@@ -15,9 +15,9 @@ class Like(models.Model):
 
 
 class Album(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30)
     description = models.TextField(max_length=1024)
-    thumbnail = models.ImageField()
+    thumbnail = models.ImageField(blank=True, null=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now=True, )
 

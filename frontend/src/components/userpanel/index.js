@@ -7,19 +7,41 @@ import Utils from '../utils'
 
 const u = new Utils();
 class UserPanel extends React.Component{
+    constructor(props){
+        super(props);
+        this.logout = this.logout.bind(this)
+    }
+
+    logout(){
+        const that = this;
+        Axios.post('/api/v1/accounts/logout/',
+            { "revoke_token": true},
+            {headers: {'X-CSRFToken':u.getCookie('csrftoken')}})
+            .then(resp => {
+                console.log(resp);
+                if(resp.status === 200 && resp.data.detail === 'Logout successful'){
+                    that.props.setUsername('');
+                    window.location = '/'
+                }
+            })
+    }
+
     componentDidMount(){
         if (this.props.user.length === 0){
             console.log(this.props.user, '###');
-            const thet = this;
-            Axios.get('/api/v1/user', {headers: {'X-CSRFToken':u.getCookie('csrftoken')}}).then(resp => {thet.props.setUsername(resp.data.username)})
+            const that = this;
+            Axios.get('/api/v1/user', {headers: {'X-CSRFToken':u.getCookie('csrftoken')}})
+                .then(resp => {that.props.setUsername(resp.data.username)})
         }
     }
     render(){
         return(
             <div id="userPanel" className="row">
-                <div className="col-4">hello {this.props.user}</div>
                 <div className="col-4"><a href="/" id={"homebtn"}>Home</a></div>
-                <div className="col-4"><a id={"logout"}>logout</a></div>
+                <div className="col-4">Hello {this.props.user}</div>
+                <div className="col-4">
+                    {this.props.user.length === 0 ? <a href="/front/login">Login</a> : <a href="#" onClick={event => this.logout(event)} id={"logout"}>Logout</a>}
+                </div>
             </div>
         )
     }
